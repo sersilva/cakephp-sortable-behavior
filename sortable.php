@@ -178,7 +178,17 @@ class SortableBehavior extends ModelBehavior {
  * @access public
  */
 	function resetOrder(&$model) {
-		//TODO
+		
+		$order_field = $this->settings[$model->alias]['orderField'];
+		
+		$model->recursive = -1;
+		$elements = $model->find('list', array('fields' => array('id', 'id')));
+		$cont = 1;
+		foreach ($elements as $elementId) {
+			$model->id = $elementId;
+			$model->saveField($order_field, $cont);
+			$cont++;
+		}
 	}
 /**
  * setOrder
